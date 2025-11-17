@@ -499,6 +499,16 @@ func (hs *HTTPServer) registerRoutes() {
 			dashboardRoute.Get("/", authorize(ac.EvalPermission(dashboards.ActionSnapshotsRead)), routing.Wrap(hs.SearchDashboardSnapshots))
 		})
 
+		// Notebooks
+		apiRoute.Group("/notebooks", func(notebookRoute routing.RouteRegister) {
+			notebookUIDScope := dashboards.ScopeDashboardsProvider.GetResourceScopeUID(ac.Parameter(":uid"))
+
+			notebookRoute.Get("/uid/:uid", authorize(ac.EvalPermission(dashboards.ActionDashboardsRead, notebookUIDScope)), routing.Wrap(hs.GetNotebook))
+			notebookRoute.Delete("/uid/:uid", authorize(ac.EvalPermission(dashboards.ActionDashboardsDelete, notebookUIDScope)), routing.Wrap(hs.DeleteNotebook))
+			notebookRoute.Post("/db", authorize(ac.EvalAny(ac.EvalPermission(dashboards.ActionDashboardsCreate), ac.EvalPermission(dashboards.ActionDashboardsWrite))), routing.Wrap(hs.PostNotebook))
+			notebookRoute.Get("/search", authorize(ac.EvalPermission(dashboards.ActionDashboardsRead)), routing.Wrap(hs.SearchNotebooks))
+		})
+
 		// Playlist
 		hs.registerPlaylistAPI(apiRoute)
 

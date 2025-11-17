@@ -165,6 +165,24 @@ export function getAppRoutes(): RouteDescriptor[] {
       ),
     },
     {
+      path: '/notebooks',
+      component: SafeDynamicImport(
+        () => import(/* webpackChunkName: "NotebookListPage"*/ 'app/features/notebooks/NotebookListPage')
+      ),
+    },
+    {
+      path: '/notebooks/new',
+      component: SafeDynamicImport(
+        () => import(/* webpackChunkName: "NotebookEditorPage"*/ 'app/features/notebooks/NotebookEditorPage')
+      ),
+    },
+    {
+      path: '/notebooks/:uid/:slug?',
+      component: SafeDynamicImport(
+        () => import(/* webpackChunkName: "NotebookPage"*/ 'app/features/notebooks/NotebookPage')
+      ),
+    },
+    {
       path: '/explore',
       pageClass: 'page-explore',
       roles: () => contextSrv.evaluatePermission([AccessControlAction.DataSourcesExplore]),

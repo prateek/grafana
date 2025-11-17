@@ -126,6 +126,23 @@ func (s *ServiceImpl) GetNavTree(c *contextmodel.ReqContext, prefs *pref.Prefere
 		treeRoot.AddSection(dashboardLink)
 	}
 
+	// Notebooks
+	if c.IsPublicDashboardView() || hasAccess(ac.EvalAny(
+		ac.EvalPermission(dashboards.ActionFoldersRead), ac.EvalPermission(dashboards.ActionFoldersCreate),
+		ac.EvalPermission(dashboards.ActionDashboardsRead), ac.EvalPermission(dashboards.ActionDashboardsCreate)),
+	) {
+		notebookLink := &navtree.NavLink{
+			Text:       "Notebooks",
+			Id:         navtree.NavIDNotebooks,
+			SubTitle:   "Create and manage notebooks with markdown panels",
+			Icon:       "file-alt",
+			Url:        s.cfg.AppSubURL + "/notebooks",
+			SortWeight: navtree.WeightNotebooks,
+		}
+
+		treeRoot.AddSection(notebookLink)
+	}
+
 	if s.cfg.ExploreEnabled && hasAccess(ac.EvalPermission(ac.ActionDatasourcesExplore)) {
 		treeRoot.AddSection(&navtree.NavLink{
 			Text:       "Explore",

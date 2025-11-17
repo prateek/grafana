@@ -15,6 +15,7 @@ const (
 	WeightBookmarks
 	WeightSavedItems
 	WeightDashboard
+	WeightNotebooks
 	WeightExplore
 	WeightDrilldown
 	WeightAssistant
@@ -39,6 +40,7 @@ const (
 const (
 	NavIDRoot                 = "root"
 	NavIDDashboards           = "dashboards/browse"
+	NavIDNotebooks            = "notebooks/browse"
 	NavIDExplore              = "explore"
 	NavIDDrilldown            = "drilldown"
 	NavIDAdaptiveTelemetry    = "adaptive-telemetry"
