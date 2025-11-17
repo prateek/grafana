@@ -89,7 +89,8 @@ async function fetchDashboard(
       case DashboardRoutes.Public: {
         return await dashboardLoaderSrv.loadDashboard('public', args.urlSlug, args.accessToken);
       }
-      case DashboardRoutes.Normal: {
+      case DashboardRoutes.Normal:
+      case DashboardRoutes.Notebook: {
         const dashDTO: DashboardDTO = await dashboardLoaderSrv.loadDashboard(args.urlType, args.urlSlug, args.urlUid);
 
         // only the folder API has information about ancestors
@@ -118,6 +119,12 @@ async function fetchDashboard(
           }
         }
         return dashDTO;
+      }
+      case DashboardRoutes.NewNotebook: {
+        if (args.urlFolderUid) {
+          await dispatch(getFolderByUid(args.urlFolderUid));
+        }
+        return await buildNewDashboardSaveModel(args.urlFolderUid, { isNotebook: true });
       }
       case DashboardRoutes.New: {
         // only the folder API has information about ancestors
@@ -273,7 +280,7 @@ export function initDashboard(args: InitDashboardArgs): ThunkResult<void> {
     }
 
     // send open dashboard event
-    if (args.routeName !== DashboardRoutes.New) {
+    if (args.routeName !== DashboardRoutes.New && args.routeName !== DashboardRoutes.NewNotebook) {
       emitDashboardViewEvent(dashboard);
 
       // Listen for changes on the current dashboard

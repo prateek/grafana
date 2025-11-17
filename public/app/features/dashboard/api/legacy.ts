@@ -23,6 +23,7 @@ export class LegacyDashboardAPI implements DashboardAPI<DashboardDTO, Dashboard>
       message: options.message ?? '',
       overwrite: options.overwrite ?? false,
       folderUid: options.folderUid,
+      isNotebook: options.isNotebook ?? Boolean((options.dashboard as any)?.isNotebook),
     });
   }
 

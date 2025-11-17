@@ -58,6 +58,7 @@ export class DashboardSrv {
       folderUid: this.dashboard?.meta.folderUid || parsedJson.folderUid,
       message: t('dashboard.dashboard-srv.message.edit-dashboard-json', 'Edit Dashboard JSON'),
       k8s: this.dashboard?.meta.k8s,
+      isNotebook: Boolean(parsedJson?.isNotebook ?? this.dashboard?.isNotebook),
     });
   }
 
@@ -65,10 +66,13 @@ export class DashboardSrv {
     data: SaveDashboardOptions,
     requestOptions?: Pick<BackendSrvRequest, 'showErrorAlert' | 'showSuccessAlert'>
   ) {
+    const saveModel = data.dashboard.getSaveModelClone();
+    (saveModel as any).isNotebook = data.dashboard.isNotebook;
     return getDashboardAPI().saveDashboard({
       message: data.message,
       folderUid: data.folderUid,
-      dashboard: data.dashboard.getSaveModelClone(),
+      dashboard: saveModel,
+      isNotebook: data.dashboard.isNotebook,
       showErrorAlert: requestOptions?.showErrorAlert,
     });
   }

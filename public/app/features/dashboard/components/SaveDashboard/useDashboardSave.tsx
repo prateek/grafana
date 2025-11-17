@@ -25,12 +25,14 @@ const saveDashboard = async (
   dashboard: DashboardModel,
   saveDashboardRtkQuery: ReturnType<typeof useSaveDashboardMutation>[0]
 ) => {
+  (saveModel as any).isNotebook = dashboard.isNotebook;
   const query = await saveDashboardRtkQuery({
     dashboard: saveModel,
     folderUid: options.folderUid ?? dashboard.meta.folderUid ?? saveModel.meta?.folderUid,
     message: options.message,
     overwrite: options.overwrite,
     k8s: dashboard.meta.k8s,
+    isNotebook: dashboard.isNotebook,
   });
 
   if ('error' in query) {

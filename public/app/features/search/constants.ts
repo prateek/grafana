@@ -17,6 +17,7 @@ export const TYPE_KIND_MAP: { [key: string]: DashboardSearchItemType } = {
   dashboard: DashboardSearchItemType.DashDB,
   folder: DashboardSearchItemType.DashFolder,
   home: DashboardSearchItemType.DashHome,
+  notebook: DashboardSearchItemType.DashNotebook,
 };
 
 export const DEFAULT_MAX_VALUES = 1000;

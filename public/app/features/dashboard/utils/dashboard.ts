@@ -10,9 +10,14 @@ import { DashboardModel } from 'app/features/dashboard/state/DashboardModel';
 import { PanelModel } from 'app/features/dashboard/state/PanelModel';
 import { calculateNewPanelGridPos } from 'app/features/dashboard/utils/panel';
 
+import { GRID_COLUMN_COUNT } from 'app/core/constants';
+
 export const NEW_PANEL_TITLE = 'New panel';
 
 export function onCreateNewPanel(dashboard: DashboardModel, datasource?: string): number | undefined {
+  if (dashboard.isNotebook) {
+    return onCreateNotebookPanel(dashboard);
+  }
   const newPanel: Partial<PanelModel> = {
     type: 'timeseries',
     title: NEW_PANEL_TITLE,
@@ -59,6 +64,29 @@ export function onAddLibraryPanel(dashboard: DashboardModel) {
   };
 
   dashboard.addPanel(newPanel);
+}
+
+export function onCreateNotebookPanel(dashboard: DashboardModel): number | undefined {
+  const newPanel: Partial<PanelModel> = {
+    type: 'text',
+    title: t('dashboard.notebook.new-panel.title', 'New note'),
+    gridPos: {
+      x: 0,
+      y: 0,
+      w: GRID_COLUMN_COUNT,
+      h: 8,
+    },
+    options: {
+      mode: 'markdown',
+      content: t('dashboard.notebook.new-panel.content', 'Start writing your notebook...'),
+    },
+    targets: [],
+    datasource: null,
+    isNew: true,
+  };
+
+  dashboard.addPanel(newPanel);
+  return newPanel.id;
 }
 
 type PanelPluginInfo = { defaults: { gridPos: { w: number; h: number }; title: string } };

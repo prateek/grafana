@@ -10,6 +10,7 @@ export enum DashboardSearchItemType {
   DashDB = 'dash-db',
   DashHome = 'dash-home',
   DashFolder = 'dash-folder',
+  DashNotebook = 'dash-notebook',
 }
 
 /**

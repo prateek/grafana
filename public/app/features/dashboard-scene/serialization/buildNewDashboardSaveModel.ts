@@ -1,5 +1,6 @@
 import { t } from '@grafana/i18n';
 import { config } from '@grafana/runtime';
+import { GRID_COLUMN_COUNT } from 'app/core/constants';
 import { VariableModel, defaultDashboard } from '@grafana/schema';
 import {
   AdhocVariableKind,
@@ -17,7 +18,10 @@ import { DashboardDTO } from 'app/types/dashboard';
 
 import { contextSrv } from '../../../core/services/context_srv';
 
-export async function buildNewDashboardSaveModel(urlFolderUid?: string): Promise<DashboardDTO> {
+export async function buildNewDashboardSaveModel(
+  urlFolderUid?: string,
+  opts?: { isNotebook?: boolean }
+): Promise<DashboardDTO> {
   let variablesList = defaultDashboard.templating?.list;
 
   if (config.featureToggles.newDashboardWithFiltersAndGroupBy) {
@@ -72,6 +76,14 @@ export async function buildNewDashboardSaveModel(urlFolderUid?: string): Promise
 
   if (urlFolderUid) {
     data.meta.folderUid = urlFolderUid;
+  }
+
+  if (opts?.isNotebook) {
+    data.meta.isNotebook = true;
+    data.dashboard.isNotebook = true;
+    if (!data.dashboard.panels || data.dashboard.panels.length === 0) {
+      data.dashboard.panels = [createNotebookPanel()];
+    }
   }
 
   return data;
@@ -153,3 +165,19 @@ export async function buildNewDashboardSaveModelV2(
 
   return data;
 }
+
+const createNotebookPanel = () => ({
+  type: 'text',
+  title: t('dashboard.notebook.new-panel.title', 'New note'),
+  gridPos: {
+    x: 0,
+    y: 0,
+    w: GRID_COLUMN_COUNT,
+    h: 8,
+  },
+  options: {
+    mode: 'markdown',
+    content: t('dashboard.notebook.new-panel.content', 'Start writing your notebook...'),
+  },
+  targets: [],
+});

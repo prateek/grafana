@@ -1471,6 +1471,13 @@ func (dr *DashboardServiceImpl) FindDashboards(ctx context.Context, query *dashb
 			FolderSlug:  slugify.Slugify(folderTitle),
 			Tags:        hit.Tags,
 		}
+		if hit.Field != nil {
+			isNotebook := hit.Field.GetNestedBool("isNotebook")
+			if !isNotebook {
+				isNotebook = hit.Field.GetNestedBool("spec", "isNotebook")
+			}
+			result.IsNotebook = isNotebook
+		}
 
 		if hit.Field != nil && query.Sort.Name != "" {
 			fieldName, _, err := legacysearcher.ParseSortName(query.Sort.Name)
@@ -1541,6 +1548,8 @@ func getHitType(item dashboards.DashboardSearchProjection) model.HitType {
 	var hitType model.HitType
 	if item.IsFolder {
 		hitType = model.DashHitFolder
+	} else if item.IsNotebook {
+		hitType = model.DashHitNotebook
 	} else {
 		hitType = model.DashHitDB
 	}
@@ -1553,13 +1562,17 @@ func makeQueryResult(query *dashboards.FindPersistedDashboardsQuery, res []dashb
 
 	for _, item := range res {
 		metrics.MFolderIDsServiceCount.WithLabelValues(metrics.Dashboard).Inc()
+		uri := "db/" + item.Slug
+		if item.IsNotebook {
+			uri = "notebooks/" + item.Slug
+		}
 		hit := &model.Hit{
 			ID:          item.ID,
 			UID:         item.UID,
 			OrgID:       item.OrgID,
 			Title:       item.Title,
-			URI:         "db/" + item.Slug,
-			URL:         dashboards.GetDashboardFolderURL(item.IsFolder, item.UID, item.Slug),
+			URI:         uri,
+			URL:         dashboards.GetResourceURL(item.IsFolder, item.IsNotebook, item.UID, item.Slug),
 			Type:        getHitType(item),
 			FolderID:    item.FolderID, // nolint:staticcheck
 			FolderUID:   item.FolderUID,
@@ -2077,6 +2090,13 @@ func (dr *DashboardServiceImpl) searchDashboardsThroughK8s(ctx context.Context, 
 			Title:     hit.Title,
 			FolderUID: hit.Folder,
 		}
+		if hit.Field != nil {
+			isNotebook := hit.Field.GetNestedBool("isNotebook")
+			if !isNotebook {
+				isNotebook = hit.Field.GetNestedBool("spec", "isNotebook")
+			}
+			result[i].IsNotebook = isNotebook
+		}
 	}
 
 	return result, nil
@@ -2183,6 +2203,10 @@ func (dr *DashboardServiceImpl) unstructuredToLegacyDashboardWithUsers(item *uns
 
 	if hasACL, ok := spec["has_acl"].(bool); ok {
 		out.HasACL = hasACL
+	}
+
+	if isNotebook, ok := spec["isNotebook"].(bool); ok {
+		out.IsNotebook = isNotebook
 	}
 
 	if title, ok := spec["title"].(string); ok {

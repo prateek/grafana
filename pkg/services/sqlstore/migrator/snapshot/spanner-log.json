@@ -86,6 +86,7 @@
   "Add column folder_id in dashboard",
   "Add column isFolder in dashboard",
   "Add column has_acl in dashboard",
+  "Add column is_notebook in dashboard",
   "Add column uid in dashboard",
   "Update uid column values in dashboard",
   "Add unique index dashboard_org_id_uid",

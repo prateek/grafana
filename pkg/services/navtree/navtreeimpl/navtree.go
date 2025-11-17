@@ -126,6 +126,18 @@ func (s *ServiceImpl) GetNavTree(c *contextmodel.ReqContext, prefs *pref.Prefere
 		treeRoot.AddSection(dashboardLink)
 	}
 
+	if hasAccess(ac.EvalPermission(dashboards.ActionDashboardsRead)) {
+		notebookLink := &navtree.NavLink{
+			Text:       "Notebooks",
+			Id:         navtree.NavIDNotebooks,
+			SubTitle:   "Document your workflows with text-first dashboards",
+			Icon:       "book",
+			Url:        s.cfg.AppSubURL + "/notebooks",
+			SortWeight: navtree.WeightNotebooks,
+		}
+		treeRoot.AddSection(notebookLink)
+	}
+
 	if s.cfg.ExploreEnabled && hasAccess(ac.EvalPermission(ac.ActionDatasourcesExplore)) {
 		treeRoot.AddSection(&navtree.NavLink{
 			Text:       "Explore",

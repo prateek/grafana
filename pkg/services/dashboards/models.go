@@ -23,6 +23,7 @@ const RootFolderName = "General"
 const (
 	DashTypeDB       = "db"
 	DashTypeSnapshot = "snapshot"
+	DashTypeNotebook = "notebook"
 )
 
 // Dashboard model
@@ -47,6 +48,7 @@ type Dashboard struct {
 	FolderUID string `xorm:"folder_uid"`
 	IsFolder  bool
 	HasACL    bool `xorm:"has_acl"`
+	IsNotebook bool `xorm:"is_notebook"`
 
 	Title string
 	Data  *simplejson.Json
@@ -99,6 +101,9 @@ func NewDashboardFromJson(data *simplejson.Json) *Dashboard {
 	dash.Data = data
 	dash.Title = dash.Data.Get("title").MustString()
 	dash.UpdateSlug()
+	if isNotebook, err := dash.Data.Get("isNotebook").Bool(); err == nil {
+		dash.IsNotebook = isNotebook
+	}
 	update := false
 
 	if id, err := dash.Data.Get("id").Float64(); err == nil {
@@ -146,6 +151,14 @@ func (cmd *SaveDashboardCommand) GetDashboardModel() *Dashboard {
 	dash.FolderID = cmd.FolderID
 	dash.FolderUID = cmd.FolderUID
 	dash.UpdateSlug()
+	isNotebook := cmd.IsNotebook
+	if !isNotebook {
+		if val, err := dash.Data.Get("isNotebook").Bool(); err == nil {
+			isNotebook = val
+		}
+	}
+	dash.IsNotebook = isNotebook
+	dash.Data.Set("isNotebook", dash.IsNotebook)
 	return dash
 }
 
@@ -157,7 +170,7 @@ func (d *Dashboard) UpdateSlug() {
 
 // GetURL return the html url for a folder if it's folder, otherwise for a dashboard
 func (d *Dashboard) GetURL() string {
-	return GetDashboardFolderURL(d.IsFolder, d.UID, d.Slug)
+	return GetResourceURL(d.IsFolder, d.IsNotebook, d.UID, d.Slug)
 }
 
 // GetDashboardFolderURL return the html url for a folder if it's folder, otherwise for a dashboard
@@ -169,9 +182,25 @@ func GetDashboardFolderURL(isFolder bool, uid string, slug string) string {
 	return GetDashboardURL(uid, slug)
 }
 
+// GetResourceURL returns the appropriate URL for a folder, notebook, or dashboard
+func GetResourceURL(isFolder bool, isNotebook bool, uid string, slug string) string {
+	if isFolder {
+		return GetFolderURL(uid, slug)
+	}
+	if isNotebook {
+		return GetNotebookURL(uid, slug)
+	}
+	return GetDashboardURL(uid, slug)
+}
+
 // GetDashboardURL returns the HTML url for a dashboard.
 func GetDashboardURL(uid string, slug string) string {
 	return fmt.Sprintf("%s/d/%s/%s", setting.AppSubUrl, uid, slug)
+}
+
+// GetNotebookURL returns the HTML url for a notebook.
+func GetNotebookURL(uid string, slug string) string {
+	return fmt.Sprintf("%s/notebooks/%s/%s", setting.AppSubUrl, uid, slug)
 }
 
 // GetKioskModeDashboardUrl returns the HTML url for a dashboard in kiosk mode.
@@ -206,6 +235,7 @@ type SaveDashboardCommand struct {
 	RestoredFrom int              `json:"-"`
 	PluginID     string           `json:"-" xorm:"plugin_id"`
 	APIVersion   string           `json:"-" xorm:"api_version"`
+	IsNotebook   bool             `json:"isNotebook"`
 
 	// Deprecated: use FolderUID instead
 	FolderID  int64  `json:"folderId" xorm:"folder_id"`
@@ -326,6 +356,7 @@ type DashboardSearchProjection struct {
 	Term        string
 	Description string
 	IsFolder    bool
+	IsNotebook  bool `xorm:"is_notebook"`
 	// Deprecated: use FolderUID instead
 	FolderID    int64  `xorm:"folder_id"`
 	FolderUID   string `xorm:"folder_uid"`

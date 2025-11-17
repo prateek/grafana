@@ -31,10 +31,13 @@ function DashboardPageProxy(props: DashboardPageProxyProps) {
     return <DashboardScenePage {...props} />;
   }
 
+  const isNotebookRoute =
+    props.route.routeName === DashboardRoutes.Notebook || props.route.routeName === DashboardRoutes.NewNotebook;
   const isScenesSupportedRoute = Boolean(
     props.route.routeName === DashboardRoutes.Home ||
       props.route.routeName === DashboardRoutes.Template ||
-      (props.route.routeName === DashboardRoutes.Normal && params.uid)
+      (props.route.routeName === DashboardRoutes.Normal && params.uid) ||
+      isNotebookRoute
   );
 
   // We pre-fetch dashboard to render dashboard page component depending on dashboard permissions.

@@ -13,6 +13,7 @@ import (
 const (
 	TypeFolder      = "dash-folder"
 	TypeDashboard   = "dash-db"
+	TypeNotebook    = "dash-notebook"
 	TypeAlertFolder = "dash-folder-alerting"
 	TypeAnnotation  = "dash-annotation"
 )
@@ -29,6 +30,10 @@ func (f TypeFilter) Where() (string, []any) {
 
 	if f.Type == TypeDashboard {
 		return "dashboard.is_folder = " + f.Dialect.BooleanStr(false), nil
+	}
+
+	if f.Type == TypeNotebook {
+		return "dashboard.is_folder = " + f.Dialect.BooleanStr(false) + " AND dashboard.is_notebook = " + f.Dialect.BooleanStr(true), nil
 	}
 
 	return "", nil

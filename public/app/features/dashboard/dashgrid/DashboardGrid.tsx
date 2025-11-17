@@ -1,10 +1,12 @@
 import classNames from 'classnames';
 import { PureComponent, CSSProperties } from 'react';
 import * as React from 'react';
-import ReactGridLayout, { ItemCallback } from 'react-grid-layout';
+import ReactGridLayout, { ItemCallback, Layout as GridLayoutItem } from 'react-grid-layout';
 import { Subscription } from 'rxjs';
 
-import { config } from '@grafana/runtime';
+import { t } from '@grafana/i18n';
+import { Button } from '@grafana/ui';
+import { config, locationService } from '@grafana/runtime';
 import appEvents from 'app/core/app_events';
 import { GRID_CELL_HEIGHT, GRID_CELL_VMARGIN, GRID_COLUMN_COUNT } from 'app/core/constants';
 import { contextSrv } from 'app/core/services/context_srv';
@@ -18,6 +20,7 @@ import { GridPos, PanelModel } from '../state/PanelModel';
 
 import DashboardEmpty from './DashboardEmpty/DashboardEmpty';
 import { DashboardPanel } from './DashboardPanel';
+import { onCreateNotebookPanel } from '../utils/dashboard';
 
 export const PANEL_FILTER_VARIABLE = 'systemPanelFilterVar';
 
@@ -43,6 +46,12 @@ export class DashboardGrid extends PureComponent<Props, State> {
   /** Used to keep track of mobile panel layout position */
   private lastPanelBottom = 0;
   private isLayoutInitialized = false;
+  private addNotebookPanel = () => {
+    const id = onCreateNotebookPanel(this.props.dashboard);
+    if (id) {
+      locationService.partial({ editPanel: id });
+    }
+  };
 
   constructor(props: Props) {
     super(props);
@@ -119,13 +128,14 @@ export class DashboardGrid extends PureComponent<Props, State> {
         continue;
       }
 
-      const panelPos: ReactGridLayout.Layout = {
+        const panelPos: GridLayoutItem = {
         i: panel.key,
         x: panel.gridPos.x,
         y: panel.gridPos.y,
         w: panel.gridPos.w,
         h: panel.gridPos.h,
       };
+        this.enforceNotebookLayout(panelPos);
 
       if (panel.type === 'row') {
         panelPos.w = GRID_COLUMN_COUNT;
@@ -156,6 +166,7 @@ export class DashboardGrid extends PureComponent<Props, State> {
       return;
     }
     for (const newPos of newLayout) {
+      this.enforceNotebookLayout(newPos);
       this.panelMap[newPos.i!].updateGridPos(newPos, this.isLayoutInitialized);
     }
 
@@ -176,11 +187,13 @@ export class DashboardGrid extends PureComponent<Props, State> {
   };
 
   onResize: ItemCallback = (layout, oldItem, newItem) => {
+    this.enforceNotebookLayout(newItem);
     const panel = this.panelMap[newItem.i!];
     panel.updateGridPos(newItem);
   };
 
   onResizeStop: ItemCallback = (layout, oldItem, newItem) => {
+    this.enforceNotebookLayout(newItem);
     this.updateGridPos(newItem, layout);
   };
 
@@ -312,6 +325,7 @@ export class DashboardGrid extends PureComponent<Props, State> {
   render() {
     const { isEditable, dashboard } = this.props;
     const { width } = this.state;
+    const isNotebook = dashboard.isNotebook;
 
     if (dashboard.panels.length === 0) {
       return <DashboardEmpty dashboard={dashboard} canCreate={isEditable} />;
@@ -332,6 +346,13 @@ export class DashboardGrid extends PureComponent<Props, State> {
         }}
       >
         <div style={{ width: width, height: '100%' }} ref={this.onGetWrapperDivRef}>
+          {isNotebook && isEditable && (
+            <div style={{ marginBottom: 8 }}>
+              <Button icon="plus" variant="primary" onClick={this.addNotebookPanel}>
+                {t('dashboard.notebook.add-text-block', 'Add text block')}
+              </Button>
+            </div>
+          )}
           <ReactGridLayout
             width={width}
             isDraggable={draggable}
@@ -354,6 +375,14 @@ export class DashboardGrid extends PureComponent<Props, State> {
         </div>
       </div>
     );
+  }
+
+  private enforceNotebookLayout(item: GridLayoutItem) {
+    if (!this.props.dashboard.isNotebook) {
+      return;
+    }
+    item.x = 0;
+    item.w = GRID_COLUMN_COUNT;
   }
 }
 

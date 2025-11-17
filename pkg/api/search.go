@@ -150,8 +150,9 @@ type SearchParams struct {
 	// required: false
 	// Description:
 	// * `dash-folder` - Search for folder
-	// * `dash-db` - Seatch for dashboard
-	// Enum: dash-folder,dash-db
+	// * `dash-db` - Search for dashboard
+	// * `dash-notebook` - Search for notebook
+	// Enum: dash-folder,dash-db,dash-notebook
 	Type string `json:"type"`
 	// List of dashboard id’s to search for
 	// This is deprecated: users should use the `dashboardUIDs` query parameter instead

@@ -14,6 +14,7 @@ const (
 	WeightHome = (iota - 20) * 100
 	WeightBookmarks
 	WeightSavedItems
+	WeightNotebooks
 	WeightDashboard
 	WeightExplore
 	WeightDrilldown
@@ -39,6 +40,7 @@ const (
 const (
 	NavIDRoot                 = "root"
 	NavIDDashboards           = "dashboards/browse"
+	NavIDNotebooks            = "notebooks/browse"
 	NavIDExplore              = "explore"
 	NavIDDrilldown            = "drilldown"
 	NavIDAdaptiveTelemetry    = "adaptive-telemetry"

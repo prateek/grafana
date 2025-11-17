@@ -61,6 +61,7 @@ func (b *Builder) buildSelect() {
 			dashboard.slug,
 			dashboard_tag.term,
 			dashboard.is_folder,
+			dashboard.is_notebook,
 			dashboard.folder_id,
 			dashboard.deleted,
 			folder.uid AS folder_uid,

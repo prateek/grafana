@@ -152,6 +152,29 @@ export function getAppRoutes(): RouteDescriptor[] {
         () => import(/* webpackChunkName: "DashboardListPage"*/ 'app/features/browse-dashboards/BrowseDashboardsPage')
       ),
     },
+      {
+        path: '/notebooks',
+        component: SafeDynamicImport(
+          () => import(/* webpackChunkName: "NotebooksPage"*/ 'app/features/notebooks/NotebooksPage')
+        ),
+      },
+      {
+        path: '/notebooks/new',
+        roles: () => contextSrv.evaluatePermission([AccessControlAction.DashboardsCreate]),
+        pageClass: 'page-dashboard',
+        routeName: DashboardRoutes.NewNotebook,
+        component: SafeDynamicImport(
+          () => import(/* webpackChunkName: "DashboardPage" */ '../features/dashboard/containers/DashboardPageProxy')
+        ),
+      },
+      {
+        path: '/notebooks/:uid/:slug?',
+        pageClass: 'page-dashboard',
+        routeName: DashboardRoutes.Notebook,
+        component: SafeDynamicImport(
+          () => import(/* webpackChunkName: "DashboardPageProxy" */ '../features/dashboard/containers/DashboardPageProxy')
+        ),
+      },
     {
       path: '/dashboards/f/:uid/:slug',
       component: SafeDynamicImport(

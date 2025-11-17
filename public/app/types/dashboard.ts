@@ -73,6 +73,7 @@ export interface DashboardMeta {
   isEmbedded?: boolean;
   isNew?: boolean;
   version?: number;
+  isNotebook?: boolean;
 
   // When loaded from kubernetes, we stick the raw metadata here
   // yes weird, but this means all the editor structures can exist unchanged
@@ -110,6 +111,8 @@ export enum DashboardRoutes {
   New = 'new-dashboard',
   Template = 'template-dashboard',
   Normal = 'normal-dashboard',
+  Notebook = 'notebook-dashboard',
+  NewNotebook = 'new-notebook',
   Provisioning = 'provisioning-dashboard',
   Scripted = 'scripted-dashboard',
   Public = 'public-dashboard',

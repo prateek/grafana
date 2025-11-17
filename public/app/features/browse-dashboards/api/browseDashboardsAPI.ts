@@ -251,6 +251,7 @@ export const browseDashboardsAPI = createApi({
             overwrite: false,
             message: '',
             k8s,
+              isNotebook: Boolean((dashboard as any)?.isNotebook),
           });
         }
         return { data: undefined };

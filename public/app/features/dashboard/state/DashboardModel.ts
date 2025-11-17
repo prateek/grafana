@@ -48,7 +48,7 @@ import { getTimeSrv } from '../services/TimeSrv';
 import { mergePanels, PanelMergeInfo } from '../utils/panelMerge';
 
 import { DashboardMigrator } from './DashboardMigrator';
-import { PanelModel } from './PanelModel';
+import { PanelModel, GridPos } from './PanelModel';
 import { TimeModel } from './TimeModel';
 import { deleteScopeVars, isOnTheSameGridRow } from './utils';
 
@@ -97,6 +97,7 @@ export class DashboardModel implements TimeModel {
   panels: PanelModel[];
   panelInEdit?: PanelModel;
   panelInView?: PanelModel;
+	isNotebook: boolean;
   fiscalYearStartMonth?: number;
   scopeMeta?: ScopeMeta;
   private panelsAffectedByVariableChange: number[] | null;
@@ -181,6 +182,8 @@ export class DashboardModel implements TimeModel {
     this.formatDate = this.formatDate.bind(this);
 
     this.initMeta(meta);
+    this.isNotebook = Boolean(this.meta.isNotebook ?? (data as any).isNotebook);
+    this.meta.isNotebook = this.isNotebook;
     this.updateSchema(data, options?.targetSchemaVersion);
 
     this.addBuiltInAnnotationQuery();
@@ -529,6 +532,28 @@ export class DashboardModel implements TimeModel {
     return max + 1;
   }
 
+  private getNotebookGridPos(gridPos?: GridPos): GridPos {
+    const height = gridPos?.h ?? 8;
+    let nextY = 0;
+
+    for (const panel of this.panelIterator()) {
+      if (!panel.gridPos) {
+        continue;
+      }
+      const bottom = panel.gridPos.y + panel.gridPos.h;
+      if (bottom > nextY) {
+        nextY = bottom;
+      }
+    }
+
+    return {
+      x: 0,
+      y: nextY,
+      w: GRID_COLUMN_COUNT,
+      h: height,
+    };
+  }
+
   *panelIterator() {
     for (const panel of this.panels) {
       yield panel;
@@ -575,6 +600,10 @@ export class DashboardModel implements TimeModel {
   addPanel(panelData: any) {
     panelData.id = this.getNextPanelId();
 
+    if (this.isNotebook) {
+      panelData.gridPos = this.getNotebookGridPos(panelData.gridPos);
+    }
+
     this.panels.unshift(new PanelModel(panelData));
 
     this.sortPanelsByGridPos();
@@ -583,7 +612,10 @@ export class DashboardModel implements TimeModel {
   }
 
   updateMeta(updates: Partial<DashboardMeta>) {
-    this.meta = { ...this.meta, ...updates };
+   	this.meta = { ...this.meta, ...updates };
+    if (typeof updates.isNotebook === 'boolean') {
+      this.isNotebook = updates.isNotebook;
+    }
     this.events.publish(new DashboardMetaChangedEvent());
   }
 

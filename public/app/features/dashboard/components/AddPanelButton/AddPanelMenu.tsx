@@ -10,6 +10,7 @@ import {
   onAddLibraryPanel,
   onCreateNewPanel,
   onCreateNewRow,
+  onCreateNotebookPanel,
   onPasteCopiedPanel,
 } from 'app/features/dashboard/utils/dashboard';
 import { DashboardInteractions } from 'app/features/dashboard-scene/utils/interactions';
@@ -25,6 +26,24 @@ const AddPanelMenu = ({ dashboard }: Props) => {
   const copiedPanelPlugin = useMemo(() => getCopiedPanelPlugin(), []);
   const dispatch = useDispatch();
   const initialDatasource = useSelector((state) => state.dashboard.initialDatasource);
+
+  if (dashboard.isNotebook) {
+    return (
+      <Menu>
+        <Menu.Item
+          key="add-notebook-text"
+          label={t('dashboard.add-menu.notebook-text', 'Text block')}
+          onClick={() => {
+            DashboardInteractions.toolbarAddButtonClicked({ item: 'add_notebook_text' });
+            const panelId = onCreateNotebookPanel(dashboard);
+            if (panelId) {
+              locationService.partial({ editPanel: panelId });
+            }
+          }}
+        />
+      </Menu>
+    );
+  }
 
   return (
     <Menu>

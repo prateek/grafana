@@ -137,6 +137,8 @@ func (hs *HTTPServer) GetDashboard(c *contextmodel.ReqContext) response.Response
 		if dash.Data.Get("id").MustString() == "" {
 			dash.Data.Set("id", dash.ID)
 		}
+
+		dash.Data.Set("isNotebook", dash.IsNotebook)
 	}
 
 	dashScope := dashboards.ScopeDashboardsProvider.GetResourceScopeUID(dash.UID)
@@ -195,6 +197,10 @@ func (hs *HTTPServer) GetDashboard(c *contextmodel.ReqContext) response.Response
 		FolderTitle:            "General",
 		AnnotationsPermissions: annotationPermissions,
 		PublicDashboardEnabled: publicDashboardEnabled,
+		IsNotebook:             dash.IsNotebook,
+	}
+	if dash.IsNotebook {
+		meta.Type = dashboards.DashTypeNotebook
 	}
 	metrics.MFolderIDsAPICount.WithLabelValues(metrics.GetDashboard).Inc()
 	// lookup folder title & url

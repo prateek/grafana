@@ -34,6 +34,7 @@ export interface SaveDashboardCommand<T> {
   folderUid?: string;
   overwrite?: boolean;
   showErrorAlert?: boolean;
+  isNotebook?: boolean;
 
   // When loading dashboards from k8s, we need to have access to the metadata wrapper
   k8s?: Partial<ObjectMeta>;
