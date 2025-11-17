@@ -53,6 +53,8 @@ export function getNavTitle(navId: string | undefined) {
       return t('nav.new-folder.title', 'New folder');
     case 'dashboards/import':
       return t('nav.create-import.title', 'Import dashboard');
+    case 'notebooks':
+      return t('nav.notebooks.title', 'Notebooks');
     case 'scenes':
       return t('nav.scenes.title', 'Scenes');
     case 'explore':
@@ -222,6 +224,8 @@ export function getNavSubTitle(navId: string | undefined) {
         'nav.recently-deleted.subtitle',
         'Deleted dashboards are kept for up to 12 months or until the history limit of 1000 dashboards is reached.'
       );
+    case 'notebooks':
+      return t('nav.notebooks.subtitle', 'Create and manage notebooks for documentation and analysis');
     case 'alerting':
       return t('nav.alerting.subtitle', 'Learn about problems in your systems moments after they occur');
     case 'alerting-upgrade':

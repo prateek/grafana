@@ -121,6 +121,19 @@ export function getAppRoutes(): RouteDescriptor[] {
       ),
     },
     {
+      path: '/notebooks',
+      component: SafeDynamicImport(
+        () => import(/* webpackChunkName: "NotebookListPage"*/ 'app/features/notebooks/NotebookListPage')
+      ),
+    },
+    {
+      path: '/n/:uid/:slug?',
+      pageClass: 'page-dashboard',
+      component: SafeDynamicImport(
+        () => import(/* webpackChunkName: "NotebookPageProxy"*/ 'app/features/notebooks/NotebookPageProxy')
+      ),
+    },
+    {
       path: DATASOURCES_ROUTES.List,
       component: () => <Navigate replace to={CONNECTIONS_ROUTES.DataSources} />,
     },
