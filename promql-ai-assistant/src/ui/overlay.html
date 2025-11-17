@@ -1,0 +1,15 @@
+<div class="prom-ai-overlay-backdrop" data-role="overlay-backdrop"></div>
+<div class="prom-ai-overlay-panel" role="dialog" aria-modal="true" aria-labelledby="prom-ai-overlay-title">
+  <header class="prom-ai-overlay-header">
+    <h2 id="prom-ai-overlay-title">PromQL Assistant</h2>
+    <button class="prom-ai-overlay-close" data-role="overlay-close" aria-label="Close overlay">×</button>
+  </header>
+  <section class="prom-ai-overlay-body">
+    <iframe
+      data-role="assistant-frame"
+      title="assistants-ui chat panel"
+      allow="clipboard-write; clipboard-read"
+      sandbox="allow-scripts allow-same-origin allow-forms allow-popups"
+    ></iframe>
+  </section>
+</div>

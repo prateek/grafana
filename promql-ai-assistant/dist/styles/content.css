@@ -1,0 +1,30 @@
+.prom-ai-assistant-button {
+  align-items: center;
+  background: var(--button-bg, rgba(255, 255, 255, 0.08));
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 4px;
+  color: inherit;
+  cursor: pointer;
+  display: inline-flex;
+  font-size: 12px;
+  gap: 0.35rem;
+  line-height: 1;
+  padding: 0.35rem 0.6rem;
+  transition: background 0.2s ease, border-color 0.2s ease;
+}
+
+.prom-ai-assistant-button svg {
+  fill: currentColor;
+  height: 14px;
+  width: 14px;
+}
+
+.prom-ai-assistant-button:hover {
+  background: rgba(255, 255, 255, 0.18);
+  border-color: rgba(255, 255, 255, 0.4);
+}
+
+.prom-ai-assistant-button:focus-visible {
+  outline: 2px solid var(--blue, #0d8bff);
+  outline-offset: 2px;
+}
