@@ -489,6 +489,27 @@ export function getAppRoutes(): RouteDescriptor[] {
       ),
     },
     {
+      path: '/notebooks',
+      component: SafeDynamicImport(
+        () => import(/* webpackChunkName: "NotebooksListPage"*/ 'app/features/notebooks/NotebooksListPage')
+      ),
+    },
+    {
+      path: '/notebooks/new',
+      roles: () => contextSrv.evaluatePermission([AccessControlAction.DashboardsCreate]),
+      pageClass: 'page-dashboard',
+      component: SafeDynamicImport(
+        () => import(/* webpackChunkName: "NotebookPage" */ 'app/features/notebooks/NotebookPageProxy')
+      ),
+    },
+    {
+      path: '/n/:uid/:slug?',
+      pageClass: 'page-dashboard',
+      component: SafeDynamicImport(
+        () => import(/* webpackChunkName: "NotebookPage" */ 'app/features/notebooks/NotebookPageProxy')
+      ),
+    },
+    {
       path: '/dashboards/f/:uid/:slug/library-panels',
       component: SafeDynamicImport(
         () =>

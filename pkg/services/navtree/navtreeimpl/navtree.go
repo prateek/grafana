@@ -126,6 +126,26 @@ func (s *ServiceImpl) GetNavTree(c *contextmodel.ReqContext, prefs *pref.Prefere
 		treeRoot.AddSection(dashboardLink)
 	}
 
+	// Add Notebooks section
+	if hasAccess(ac.EvalAny(
+		ac.EvalPermission(dashboards.ActionDashboardsRead),
+		ac.EvalPermission(dashboards.ActionDashboardsCreate)),
+	) {
+		notebookChildLinks := s.buildNotebookNavLinks(c)
+
+		notebookLink := &navtree.NavLink{
+			Text:       "Notebooks",
+			Id:         "notebooks",
+			SubTitle:   "Document your findings with notebooks",
+			Icon:       "document-info",
+			Url:        s.cfg.AppSubURL + "/notebooks",
+			SortWeight: navtree.WeightDashboard + 50,
+			Children:   notebookChildLinks,
+		}
+
+		treeRoot.AddSection(notebookLink)
+	}
+
 	if s.cfg.ExploreEnabled && hasAccess(ac.EvalPermission(ac.ActionDatasourcesExplore)) {
 		treeRoot.AddSection(&navtree.NavLink{
 			Text:       "Explore",
@@ -434,6 +454,24 @@ func (s *ServiceImpl) buildDashboardNavLinks(c *contextmodel.ReqContext) []*navt
 	}
 
 	return dashboardChildNavs
+}
+
+func (s *ServiceImpl) buildNotebookNavLinks(c *contextmodel.ReqContext) []*navtree.NavLink {
+	hasAccess := ac.HasAccess(s.accessControl, c)
+	notebookChildNavs := []*navtree.NavLink{}
+
+	if hasAccess(ac.EvalPermission(dashboards.ActionDashboardsCreate)) {
+		notebookChildNavs = append(notebookChildNavs, &navtree.NavLink{
+			Text:           "New notebook",
+			Icon:           "plus",
+			Url:            s.cfg.AppSubURL + "/notebooks/new",
+			HideFromTabs:   true,
+			Id:             "notebooks/new",
+			IsCreateAction: true,
+		})
+	}
+
+	return notebookChildNavs
 }
 
 func (s *ServiceImpl) buildAlertNavLinks(c *contextmodel.ReqContext) *navtree.NavLink {
