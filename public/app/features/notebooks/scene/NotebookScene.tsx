@@ -1,7 +1,5 @@
-import { SceneTimeRange } from '@grafana/scenes';
-
 import { t } from '@grafana/i18n';
-
+import { SceneTimeRange } from '@grafana/scenes';
 import { DashboardScene, DashboardSceneState } from 'app/features/dashboard-scene/scene/DashboardScene';
 import { DefaultGridLayoutManager } from 'app/features/dashboard-scene/scene/layout-default/DefaultGridLayoutManager';
 
