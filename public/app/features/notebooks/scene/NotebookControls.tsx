@@ -1,11 +1,14 @@
 import { css } from '@emotion/css';
 
 import { GrafanaTheme2 } from '@grafana/data';
-import { SceneComponentProps } from '@grafana/scenes';
+import { Trans } from '@grafana/i18n';
+import { SceneComponentProps, VizPanel } from '@grafana/scenes';
 import { Button, Stack, useStyles2 } from '@grafana/ui';
 
 import { DashboardControls, DashboardControlsState } from 'app/features/dashboard-scene/scene/DashboardControls';
+import { buildGridItemForPanel } from 'app/features/dashboard-scene/serialization/transformSaveModelToScene';
 import { getDashboardSceneFor } from 'app/features/dashboard-scene/utils/utils';
+
 import { TEXT_PANEL_PLUGIN_ID } from '../constants';
 
 export class NotebookControls extends DashboardControls {
@@ -21,9 +24,6 @@ function NotebookControlsRenderer({ model }: SceneComponentProps<NotebookControl
   const styles = useStyles2(getStyles);
 
   const handleAddMarkdown = () => {
-    const { VizPanel } = require('@grafana/scenes');
-    const { buildGridItemForPanel } = require('app/features/dashboard-scene/serialization/transformSaveModelToScene');
-
     const panelModel = {
       type: TEXT_PANEL_PLUGIN_ID,
       title: 'Text',
@@ -35,14 +35,16 @@ function NotebookControlsRenderer({ model }: SceneComponentProps<NotebookControl
     };
 
     const vizPanel = buildGridItemForPanel(panelModel);
-    dashboard.addPanel(vizPanel.body as VizPanel);
+    if (vizPanel.body instanceof VizPanel) {
+      dashboard.addPanel(vizPanel.body);
+    }
   };
 
   return (
     <div className={styles.controls}>
       <Stack grow={1} wrap={'wrap'}>
         <Button icon="plus" onClick={handleAddMarkdown} variant="primary">
-          Add Markdown
+          <Trans i18nKey="notebooks.controls.add-markdown">Add Markdown</Trans>
         </Button>
       </Stack>
       <DashboardControls.Component model={model} />

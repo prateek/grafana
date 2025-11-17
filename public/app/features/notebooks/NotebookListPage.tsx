@@ -3,7 +3,9 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom-v5-compat';
 
 import { GrafanaTheme2 } from '@grafana/data';
-import { Button, LinkButton, useStyles2, Card, Stack, Text } from '@grafana/ui';
+import { Trans } from '@grafana/i18n';
+import { Button, useStyles2, Card, Stack, Text } from '@grafana/ui';
+
 import { Page } from 'app/core/components/Page/Page';
 
 import { notebooksApi, NotebookDTO } from './api/notebooksApi';
@@ -37,26 +39,34 @@ function NotebookListPage() {
     <Page navId="notebooks">
       <Page.Contents>
         <div className={styles.header}>
-          <Text element="h1">Notebooks</Text>
+          <Text element="h1">
+            <Trans i18nKey="notebooks.list.title">Notebooks</Trans>
+          </Text>
           <Button icon="plus" onClick={handleCreateNotebook}>
-            New Notebook
+            <Trans i18nKey="notebooks.list.new-button">New Notebook</Trans>
           </Button>
         </div>
 
         {loading ? (
-          <div>Loading...</div>
+          <div>
+            <Trans i18nKey="notebooks.list.loading">Loading...</Trans>
+          </div>
         ) : notebooks.length === 0 ? (
           <div className={styles.empty}>
-            <Text element="h2">No notebooks yet</Text>
-            <Text color="secondary">Create your first notebook to get started</Text>
+            <Text element="h2">
+              <Trans i18nKey="notebooks.list.empty-title">No notebooks yet</Trans>
+            </Text>
+            <Text color="secondary">
+              <Trans i18nKey="notebooks.list.empty-description">Create your first notebook to get started</Trans>
+            </Text>
             <Button icon="plus" onClick={handleCreateNotebook} variant="primary">
-              Create Notebook
+              <Trans i18nKey="notebooks.list.create-button">Create Notebook</Trans>
             </Button>
           </div>
         ) : (
           <div className={styles.grid}>
             {notebooks.map((notebook) => (
-              <Card key={notebook.uid} href={`/n/${notebook.uid}`}>
+              <Card key={notebook.uid} href={`/n/${notebook.uid}`} noMargin>
                 <Card.Heading>{notebook.title}</Card.Heading>
                 {notebook.description && <Card.Description>{notebook.description}</Card.Description>}
                 <Card.Meta>
