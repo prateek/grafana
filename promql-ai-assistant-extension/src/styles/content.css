@@ -1,0 +1,90 @@
+.prom-ai-assistant-button {
+  background: #1b5e20;
+  border: none;
+  border-radius: 4px;
+  color: #fff;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 12px;
+  line-height: 1;
+  padding: 4px 8px;
+  transition: background 0.2s ease-in-out;
+}
+
+.prom-ai-assistant-button svg {
+  height: 12px;
+  width: 12px;
+}
+
+.prom-ai-assistant-button:hover,
+.prom-ai-assistant-button:focus {
+  background: #2e7d32;
+}
+
+#prom-ai-overlay-root {
+  position: fixed;
+  inset: 0;
+  display: none;
+  z-index: 2147483000;
+}
+
+#prom-ai-overlay-root.prom-ai-open {
+  display: block;
+}
+
+.prom-ai-overlay-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(15, 16, 19, 0.6);
+}
+
+.prom-ai-overlay-panel {
+  position: absolute;
+  top: 50%;
+  right: 24px;
+  transform: translateY(-50%);
+  width: min(480px, 80vw);
+  height: min(640px, 90vh);
+  background: #1f1f24;
+  border-radius: 8px;
+  box-shadow: 0 24px 70px rgba(6, 7, 10, 0.6);
+  display: flex;
+  flex-direction: column;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.prom-ai-overlay-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  color: #fff;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+}
+
+.prom-ai-overlay-close {
+  background: transparent;
+  border: none;
+  color: inherit;
+  cursor: pointer;
+  font-size: 16px;
+  padding: 4px;
+  line-height: 1;
+}
+
+.prom-ai-overlay-body {
+  flex: 1;
+  position: relative;
+}
+
+.prom-ai-overlay-body iframe {
+  border: none;
+  width: 100%;
+  height: 100%;
+  border-radius: 0 0 8px 8px;
+  background: #0f1012;
+}

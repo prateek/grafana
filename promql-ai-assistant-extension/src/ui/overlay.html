@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>PromQL Assistant Panel</title>
+    <link rel="stylesheet" href="../styles/overlay.css" />
+  </head>
+  <body>
+    <div id="overlay-app">
+      <header>PromQL Assistant (sandbox)</header>
+      <main>
+        <p class="context" id="context">Waiting for Grafana context...</p>
+        <textarea id="query-input" placeholder="Propose a PromQL query..."></textarea>
+        <button id="send-query">Insert query into Grafana</button>
+      </main>
+    </div>
+    <script type="module" src="./overlay.js"></script>
+  </body>
+</html>
