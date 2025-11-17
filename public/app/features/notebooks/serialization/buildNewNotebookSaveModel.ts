@@ -1,5 +1,5 @@
-import { Dashboard } from '@grafana/schema';
 import { t } from '@grafana/i18n';
+import { Dashboard } from '@grafana/schema';
 
 import { NOTEBOOK_PLUGIN_ID, TEXT_PANEL_PLUGIN_ID } from '../constants';
 

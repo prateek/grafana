@@ -1,14 +1,13 @@
 import { css } from '@emotion/css';
 
 import { GrafanaTheme2 } from '@grafana/data';
-import { Trans } from '@grafana/i18n';
+import { Trans, t } from '@grafana/i18n';
 import { SceneComponentProps, VizPanel } from '@grafana/scenes';
 import { Button, Stack, useStyles2 } from '@grafana/ui';
 
 import { DashboardControls, DashboardControlsState } from 'app/features/dashboard-scene/scene/DashboardControls';
 import { buildGridItemForPanel } from 'app/features/dashboard-scene/serialization/transformSaveModelToScene';
 import { getDashboardSceneFor } from 'app/features/dashboard-scene/utils/utils';
-
 import { TEXT_PANEL_PLUGIN_ID } from '../constants';
 
 export class NotebookControls extends DashboardControls {
@@ -26,11 +25,11 @@ function NotebookControlsRenderer({ model }: SceneComponentProps<NotebookControl
   const handleAddMarkdown = () => {
     const panelModel = {
       type: TEXT_PANEL_PLUGIN_ID,
-      title: 'Text',
+      title: t('notebooks.controls.panel-title', 'Text'),
       gridPos: { x: 0, y: 0, w: 24, h: 8 },
       options: {
         mode: 'markdown',
-        content: '# New Text Panel\n\nStart editing...',
+        content: t('notebooks.controls.panel-content', '# New Text Panel\n\nStart editing...'),
       },
     };
 
