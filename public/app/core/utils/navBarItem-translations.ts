@@ -35,6 +35,12 @@ export function getNavTitle(navId: string | undefined) {
       return t('nav.dashboards.title', 'Dashboards');
     case 'dashboards/browse':
       return t('nav.dashboards.title', 'Dashboards');
+    case 'notebooks':
+      return t('nav.notebooks.title', 'Notebooks');
+    case 'notebooks/browse':
+      return t('nav.notebooks.title', 'Notebooks');
+    case 'notebooks/new':
+      return t('nav.new-notebook.title', 'New notebook');
     case 'dashboards/playlists':
       return t('nav.playlists.title', 'Playlists');
     case 'dashboards/snapshots':
@@ -204,6 +210,10 @@ export function getNavSubTitle(navId: string | undefined) {
       return t('nav.dashboards.subtitle', 'Create and manage dashboards to visualize your data');
     case 'dashboards/browse':
       return t('nav.dashboards.subtitle', 'Create and manage dashboards to visualize your data');
+    case 'notebooks':
+      return t('nav.notebooks.subtitle', 'Create and manage notebooks with markdown and visualizations');
+    case 'notebooks/browse':
+      return t('nav.notebooks.subtitle', 'Create and manage notebooks with markdown and visualizations');
     case 'manage-folder':
       return t('nav.manage-folder.subtitle', 'Manage folder dashboards and permissions');
     case 'dashboards/playlists':

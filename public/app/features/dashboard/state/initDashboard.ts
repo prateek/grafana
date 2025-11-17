@@ -126,7 +126,21 @@ async function fetchDashboard(
         if (args.urlFolderUid) {
           await dispatch(getFolderByUid(args.urlFolderUid));
         }
-        return await buildNewDashboardSaveModel(args.urlFolderUid);
+        const dashDTO = await buildNewDashboardSaveModel(args.urlFolderUid);
+        
+        // Check if this is a notebook route and add notebook tag
+        const currentPath = locationService.getLocation().pathname;
+        if (currentPath.includes('/notebooks/new') || currentPath.includes('/notebook/')) {
+          if (!dashDTO.dashboard.tags) {
+            dashDTO.dashboard.tags = [];
+          }
+          if (!dashDTO.dashboard.tags.includes('notebook')) {
+            dashDTO.dashboard.tags.push('notebook');
+          }
+          dashDTO.dashboard.title = t('dashboard.new-notebook.title', 'New notebook');
+        }
+        
+        return dashDTO;
       }
       default:
         throw { message: 'Unknown route ' + args.routeName };

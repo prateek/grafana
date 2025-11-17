@@ -165,6 +165,36 @@ export function getAppRoutes(): RouteDescriptor[] {
       ),
     },
     {
+      path: '/notebooks',
+      component: SafeDynamicImport(
+        () => import(/* webpackChunkName: "NotebookListPage"*/ 'app/features/browse-notebooks/BrowseNotebooksPage')
+      ),
+    },
+    {
+      path: '/notebooks/new',
+      roles: () => contextSrv.evaluatePermission([AccessControlAction.DashboardsCreate]),
+      pageClass: 'page-dashboard',
+      component: SafeDynamicImport(
+        () => import(/* webpackChunkName: "NotebookPage" */ '../features/notebook/containers/NotebookPageProxy')
+      ),
+    },
+    {
+      path: '/n/:uid/:slug?',
+      pageClass: 'page-dashboard',
+      routeName: DashboardRoutes.Normal,
+      component: SafeDynamicImport(
+        () => import(/* webpackChunkName: "NotebookPageProxy" */ '../features/notebook/containers/NotebookPageProxy')
+      ),
+    },
+    {
+      path: '/notebook/:type/:slug',
+      pageClass: 'page-dashboard',
+      routeName: DashboardRoutes.Normal,
+      component: SafeDynamicImport(
+        () => import(/* webpackChunkName: "NotebookPageProxy" */ '../features/notebook/containers/NotebookPageProxy')
+      ),
+    },
+    {
       path: '/explore',
       pageClass: 'page-explore',
       roles: () => contextSrv.evaluatePermission([AccessControlAction.DataSourcesExplore]),
