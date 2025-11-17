@@ -8,6 +8,7 @@ import { Button, Stack, useStyles2 } from '@grafana/ui';
 import { DashboardControls, DashboardControlsState } from 'app/features/dashboard-scene/scene/DashboardControls';
 import { buildGridItemForPanel } from 'app/features/dashboard-scene/serialization/transformSaveModelToScene';
 import { getDashboardSceneFor } from 'app/features/dashboard-scene/utils/utils';
+
 import { TEXT_PANEL_PLUGIN_ID } from '../constants';
 
 export class NotebookControls extends DashboardControls {

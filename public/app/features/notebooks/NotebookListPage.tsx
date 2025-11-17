@@ -4,10 +4,9 @@ import { useNavigate } from 'react-router-dom-v5-compat';
 
 import { GrafanaTheme2 } from '@grafana/data';
 import { Trans } from '@grafana/i18n';
-import { Button, useStyles2, Card, Stack, Text } from '@grafana/ui';
+import { Button, Card, Stack, Text, useStyles2 } from '@grafana/ui';
 
 import { Page } from 'app/core/components/Page/Page';
-
 import { notebooksApi, NotebookDTO } from './api/notebooksApi';
 
 function NotebookListPage() {
