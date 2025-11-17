@@ -1,0 +1,99 @@
+/**
+ * Content Script Styles
+ * Styles for the AI Assistant button injected into Grafana's UI
+ */
+
+/* Button Container */
+.prom-ai-assistant-button-container {
+  display: inline-flex;
+  align-items: center;
+  margin-left: 8px;
+  margin-right: 4px;
+}
+
+/* AI Assistant Button */
+.prom-ai-assistant-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  font-size: 13px;
+  font-weight: 500;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  color: #1f62e0;
+  background: linear-gradient(135deg, #f0f7ff 0%, #e6f2ff 100%);
+  border: 1px solid #b8d9ff;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+  line-height: 1;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+.prom-ai-assistant-button:hover {
+  background: linear-gradient(135deg, #e6f2ff 0%, #d9ebff 100%);
+  border-color: #90c5ff;
+  box-shadow: 0 2px 4px rgba(31, 98, 224, 0.15);
+  transform: translateY(-1px);
+}
+
+.prom-ai-assistant-button:active {
+  background: linear-gradient(135deg, #d9ebff 0%, #cce4ff 100%);
+  box-shadow: 0 1px 2px rgba(31, 98, 224, 0.1);
+  transform: translateY(0);
+}
+
+.prom-ai-assistant-button:focus {
+  outline: 2px solid #1f62e0;
+  outline-offset: 2px;
+}
+
+/* Button Icon */
+.prom-ai-assistant-button__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 14px;
+  height: 14px;
+}
+
+.prom-ai-assistant-button__svg {
+  width: 100%;
+  height: 100%;
+  color: #1f62e0;
+}
+
+/* Button Label */
+.prom-ai-assistant-button__label {
+  font-size: 13px;
+  font-weight: 500;
+}
+
+/* Dark theme support (Grafana dark theme) */
+@media (prefers-color-scheme: dark),
+[data-theme='dark'] .prom-ai-assistant-button,
+.grafana-dark .prom-ai-assistant-button {
+  color: #6e9eff;
+  background: linear-gradient(135deg, #1a2332 0%, #1f2937 100%);
+  border-color: #3d4f66;
+}
+
+@media (prefers-color-scheme: dark),
+[data-theme='dark'] .prom-ai-assistant-button:hover,
+.grafana-dark .prom-ai-assistant-button:hover {
+  background: linear-gradient(135deg, #1f2937 0%, #2a3647 100%);
+  border-color: #4a5f7f;
+  box-shadow: 0 2px 4px rgba(110, 158, 255, 0.2);
+}
+
+@media (prefers-color-scheme: dark),
+[data-theme='dark'] .prom-ai-assistant-button__svg,
+.grafana-dark .prom-ai-assistant-button__svg {
+  color: #6e9eff;
+}
+
+/* Ensure button doesn't break Grafana's layout */
+.prom-ai-assistant-button-container {
+  flex-shrink: 0;
+}
