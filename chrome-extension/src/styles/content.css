@@ -1,0 +1,255 @@
+/**
+ * Content Script Styles
+ *
+ * Styles for elements injected by the content script (button, overlay, etc.)
+ * All class names are namespaced to avoid conflicts with Grafana's styles.
+ */
+
+/* AI Assistant Button */
+.prom-ai-assistant-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  margin-left: 8px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #33a2e5;
+  background-color: rgba(51, 162, 229, 0.1);
+  border: 1px solid rgba(51, 162, 229, 0.3);
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica', 'Arial',
+    sans-serif;
+}
+
+.prom-ai-assistant-button:hover {
+  background-color: rgba(51, 162, 229, 0.2);
+  border-color: rgba(51, 162, 229, 0.5);
+}
+
+.prom-ai-assistant-button:active {
+  transform: scale(0.98);
+}
+
+.prom-ai-assistant-button:disabled,
+.prom-ai-assistant-button.disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.prom-ai-assistant-button.loading {
+  position: relative;
+  color: transparent;
+}
+
+.prom-ai-assistant-button.loading::after {
+  content: '';
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  top: 50%;
+  left: 50%;
+  margin-left: -8px;
+  margin-top: -8px;
+  border: 2px solid #33a2e5;
+  border-radius: 50%;
+  border-top-color: transparent;
+  animation: prom-ai-spinner 0.6s linear infinite;
+}
+
+@keyframes prom-ai-spinner {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.prom-ai-assistant-button svg {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+}
+
+.prom-ai-assistant-button .button-text {
+  white-space: nowrap;
+}
+
+/* Button wrapper (if needed) */
+.prom-ai-button-wrapper {
+  display: inline-block;
+  margin-left: 8px;
+}
+
+/* Overlay Root */
+.prom-ai-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 10000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica', 'Arial',
+    sans-serif;
+}
+
+/* Overlay Backdrop */
+.overlay-backdrop {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(2px);
+}
+
+/* Overlay Panel */
+.overlay-panel {
+  position: relative;
+  width: 90%;
+  max-width: 600px;
+  height: 80%;
+  max-height: 700px;
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  z-index: 10001;
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  .overlay-panel {
+    background-color: #1f1f1f;
+    color: #e0e0e0;
+  }
+}
+
+/* Overlay Header */
+.overlay-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px;
+  border-bottom: 1px solid #e0e0e0;
+  background-color: #f5f5f5;
+}
+
+@media (prefers-color-scheme: dark) {
+  .overlay-header {
+    background-color: #2a2a2a;
+    border-bottom-color: #3a3a3a;
+  }
+}
+
+.overlay-title {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 600;
+  color: #333;
+}
+
+@media (prefers-color-scheme: dark) {
+  .overlay-title {
+    color: #e0e0e0;
+  }
+}
+
+.overlay-close-button {
+  background: none;
+  border: none;
+  font-size: 28px;
+  line-height: 1;
+  color: #666;
+  cursor: pointer;
+  padding: 0;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+}
+
+.overlay-close-button:hover {
+  background-color: rgba(0, 0, 0, 0.1);
+  color: #333;
+}
+
+@media (prefers-color-scheme: dark) {
+  .overlay-close-button {
+    color: #999;
+  }
+
+  .overlay-close-button:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    color: #fff;
+  }
+}
+
+/* Iframe Container */
+.overlay-iframe-container {
+  flex: 1;
+  position: relative;
+  overflow: hidden;
+}
+
+.overlay-iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+  display: block;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .overlay-panel {
+    width: 95%;
+    height: 90%;
+    max-height: none;
+  }
+
+  .overlay-header {
+    padding: 12px 16px;
+  }
+
+  .overlay-title {
+    font-size: 16px;
+  }
+}
+
+/* Animation for overlay appearance */
+.prom-ai-overlay {
+  animation: prom-ai-overlay-fadein 0.2s ease-out;
+}
+
+@keyframes prom-ai-overlay-fadein {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.overlay-panel {
+  animation: prom-ai-panel-slidein 0.3s ease-out;
+}
+
+@keyframes prom-ai-panel-slidein {
+  from {
+    transform: translateY(-20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
