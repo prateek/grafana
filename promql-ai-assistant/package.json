@@ -1,0 +1,37 @@
+{
+  "name": "promql-ai-assistant",
+  "version": "0.1.0",
+  "description": "Chrome extension that augments Grafana's Prometheus query editor with an AI assistant overlay.",
+  "type": "module",
+  "scripts": {
+    "build": "rimraf dist && tsup --config tsup.config.ts && node scripts/copy-static.mjs",
+    "dev": "tsup --config tsup.config.ts --watch",
+    "lint": "ESLINT_USE_FLAT_CONFIG=false eslint \"src/**/*.{ts,tsx}\"",
+    "format": "prettier --write \"{src,tests}/**/*.{ts,tsx,css,html,md}\"",
+    "test": "vitest run",
+    "test:watch": "vitest watch",
+    "check": "npm run lint && npm run test"
+  },
+  "keywords": [
+    "grafana",
+    "prometheus",
+    "chrome-extension",
+    "promql"
+  ],
+  "author": "",
+  "license": "Apache-2.0",
+  "devDependencies": {
+    "@types/chrome": "^0.0.269",
+    "@types/node": "^20.11.0",
+    "@typescript-eslint/eslint-plugin": "^7.0.0",
+    "@typescript-eslint/parser": "^7.0.0",
+    "eslint": "^8.57.1",
+    "eslint-config-prettier": "^10.1.8",
+    "jsdom": "^24.0.0",
+    "prettier": "^3.2.0",
+    "rimraf": "^5.0.0",
+    "tsup": "^8.0.0",
+    "typescript": "^5.4.0",
+    "vitest": "^1.2.0"
+  }
+}
