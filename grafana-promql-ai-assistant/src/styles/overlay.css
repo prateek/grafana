@@ -1,0 +1,130 @@
+/**
+ * Styles for the AI Assistant overlay panel.
+ * All classes are namespaced with "prom-ai-" prefix to avoid conflicts.
+ */
+
+.prom-ai-overlay-root {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 999999;
+  display: none;
+  pointer-events: none;
+}
+
+.prom-ai-overlay-root.prom-ai-overlay-visible {
+  display: block;
+  pointer-events: auto;
+}
+
+.prom-ai-overlay-backdrop {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(2px);
+}
+
+.prom-ai-overlay-panel {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 600px;
+  max-width: 90vw;
+  max-height: 90vh;
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.prom-ai-overlay-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px;
+  border-bottom: 1px solid #e0e0e0;
+  background-color: #f8f9fa;
+}
+
+.prom-ai-overlay-title {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 600;
+  color: #1f1f1f;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+}
+
+.prom-ai-overlay-close {
+  background: none;
+  border: none;
+  font-size: 28px;
+  line-height: 1;
+  color: #666;
+  cursor: pointer;
+  padding: 0;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.prom-ai-overlay-close:hover {
+  background-color: #e0e0e0;
+  color: #1f1f1f;
+}
+
+.prom-ai-overlay-close:active {
+  background-color: #d0d0d0;
+}
+
+.prom-ai-overlay-content {
+  flex: 1;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.prom-ai-assistant-iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+  flex: 1;
+  min-height: 0;
+}
+
+/* Dark mode support (optional, can be enhanced) */
+@media (prefers-color-scheme: dark) {
+  .prom-ai-overlay-panel {
+    background-color: #1f1f1f;
+    color: #ffffff;
+  }
+
+  .prom-ai-overlay-header {
+    background-color: #2a2a2a;
+    border-bottom-color: #404040;
+  }
+
+  .prom-ai-overlay-title {
+    color: #ffffff;
+  }
+
+  .prom-ai-overlay-close {
+    color: #cccccc;
+  }
+
+  .prom-ai-overlay-close:hover {
+    background-color: #404040;
+    color: #ffffff;
+  }
+}

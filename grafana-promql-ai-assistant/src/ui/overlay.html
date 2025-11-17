@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PromQL Assistant</title>
+  <link rel="stylesheet" href="../styles/overlay.css">
+</head>
+<body>
+  <div id="prom-ai-overlay-backdrop" class="prom-ai-overlay-backdrop"></div>
+  <div id="prom-ai-overlay-panel" class="prom-ai-overlay-panel">
+    <div class="prom-ai-overlay-header">
+      <h2 class="prom-ai-overlay-title">PromQL Assistant</h2>
+      <button id="prom-ai-overlay-close" class="prom-ai-overlay-close" aria-label="Close">×</button>
+    </div>
+    <div class="prom-ai-overlay-content">
+      <iframe
+        id="prom-ai-assistant-iframe"
+        class="prom-ai-assistant-iframe"
+        title="PromQL AI Assistant"
+        sandbox="allow-scripts allow-same-origin allow-forms allow-popups"
+      ></iframe>
+    </div>
+  </div>
+</body>
+</html>
