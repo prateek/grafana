@@ -1,0 +1,167 @@
+/**
+ * Styles for elements injected by the content script
+ */
+
+/* AI Assistant Button */
+.prom-ai-assistant-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  margin-left: 8px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #33a2e5;
+  background: transparent;
+  border: 1px solid #33a2e5;
+  border-radius: 3px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial,
+    sans-serif;
+  white-space: nowrap;
+}
+
+.prom-ai-assistant-button:hover {
+  background: rgba(51, 162, 229, 0.1);
+  border-color: #2b8ac3;
+  color: #2b8ac3;
+}
+
+.prom-ai-assistant-button:active {
+  transform: scale(0.98);
+}
+
+.prom-ai-assistant-button svg {
+  flex-shrink: 0;
+  width: 16px;
+  height: 16px;
+}
+
+/* Dark theme support (Grafana often uses dark themes) */
+@media (prefers-color-scheme: dark) {
+  .prom-ai-assistant-button {
+    color: #58a6ff;
+    border-color: #58a6ff;
+  }
+
+  .prom-ai-assistant-button:hover {
+    background: rgba(88, 166, 255, 0.15);
+    border-color: #79b8ff;
+    color: #79b8ff;
+  }
+}
+
+/* Overlay backdrop */
+.prom-ai-overlay-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(2px);
+}
+
+/* Overlay panel */
+.prom-ai-overlay-panel {
+  position: relative;
+  width: 90%;
+  max-width: 900px;
+  height: 80%;
+  max-height: 700px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  z-index: 1;
+}
+
+@media (prefers-color-scheme: dark) {
+  .prom-ai-overlay-panel {
+    background: #1f1f1f;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6);
+  }
+}
+
+/* Overlay header */
+.prom-ai-overlay-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px;
+  border-bottom: 1px solid #e1e4e8;
+  background: #f6f8fa;
+}
+
+@media (prefers-color-scheme: dark) {
+  .prom-ai-overlay-header {
+    background: #161616;
+    border-bottom-color: #30363d;
+  }
+}
+
+.prom-ai-overlay-header h2 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 600;
+  color: #24292e;
+}
+
+@media (prefers-color-scheme: dark) {
+  .prom-ai-overlay-header h2 {
+    color: #e6edf3;
+  }
+}
+
+/* Close button */
+.prom-ai-overlay-close {
+  background: none;
+  border: none;
+  font-size: 28px;
+  line-height: 1;
+  color: #586069;
+  cursor: pointer;
+  padding: 0;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+}
+
+.prom-ai-overlay-close:hover {
+  background: rgba(0, 0, 0, 0.05);
+  color: #24292e;
+}
+
+@media (prefers-color-scheme: dark) {
+  .prom-ai-overlay-close {
+    color: #8b949e;
+  }
+
+  .prom-ai-overlay-close:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: #e6edf3;
+  }
+}
+
+/* Iframe */
+.prom-ai-overlay-iframe {
+  flex: 1;
+  border: none;
+  width: 100%;
+  height: 100%;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .prom-ai-overlay-panel {
+    width: 95%;
+    height: 90%;
+  }
+}

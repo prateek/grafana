@@ -1,0 +1,42 @@
+{
+  "manifest_version": 3,
+  "name": "Grafana Prometheus AI Assistant",
+  "version": "1.0.0",
+  "description": "Augments Grafana's Prometheus query builder with an AI assistant",
+  "permissions": [
+    "scripting"
+  ],
+  "host_permissions": [
+    "https://*/grafana/*",
+    "https://grafana.*/*",
+    "http://localhost:*/*",
+    "https://localhost:*/*"
+  ],
+  "content_scripts": [
+    {
+      "matches": [
+        "https://*/grafana/*",
+        "https://grafana.*/*",
+        "http://localhost:*/*",
+        "https://localhost:*/*"
+      ],
+      "js": ["contentScript.js"],
+      "css": ["styles/content.css"],
+      "run_at": "document_idle"
+    }
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "web_accessible_resources": [
+    {
+      "resources": ["ui/overlay.html", "styles/overlay.css"],
+      "matches": ["<all_urls>"]
+    }
+  ],
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  }
+}
